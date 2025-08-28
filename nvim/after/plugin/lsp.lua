@@ -1,11 +1,25 @@
 local lsp = require('lsp-zero').preset({})
 
-lsp.ensure_installed({
-	'tsserver',
-	'eslint',
-	-- 'sumneko_lua',
-	'rust_analyzer'
-})
+-- lsp.ensure_installed({
+-- 	-- 'tsserver',
+-- 	-- 'eslint',
+-- 	'sumneko_lua',
+--     'lua_ls',
+-- 	-- 'rust_analyzer'
+-- })
+
+-- require('mason').setup({})
+-- require('mason-lspconfig').setup({
+--   -- Replace the language servers listed here
+--   -- with the ones you want to install
+--   ensure_installed = {'lua_ls', 'rust_analyzer'},
+--   handlers = {
+--     function(server_name)
+--       require('lspconfig')[server_name].setup({})
+--     end,
+--   }
+-- })
+
 
 local cmp = require('cmp')
 local cmp_select = {behavior = cmp.SelectBehavior.Select}
@@ -30,7 +44,8 @@ lsp.on_attach(function(client, bufnr)
   -- lsp.default_keymaps({buffer = bufnr})
 
   local opts = {buffer = bufnr, remap = false}
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  -- vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
   vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
   vim.keymap.set("n", "<leader>vd", function() vim.lsp.buf.open_float() end, opts)
@@ -46,11 +61,15 @@ end)
 
 -- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-require('lspconfig').gdscript.setup{
-    on_attach = lsp.on_attach,
-    flags = {
-        debounce_text_changes = 150,
-    }
-}
+-- require('lspconfig').gdscript.setup{
+--     on_attach = lsp.on_attach,
+--     flags = {
+--         debounce_text_changes = 150,
+--     }
+-- }
 
 lsp.setup()
+
+vim.diagnostic.config({
+    virtual_text = true,
+})
