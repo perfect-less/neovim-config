@@ -1,5 +1,9 @@
 vim.g.mapleader= " "
 vim.keymap.set("n", "<leader>pe", vim.cmd.Explore)
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>pf', builtin.find_files, { desc = 'Telescope find files' })
+vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'LSP Go to Definition' })
+vim.keymap.set('n', '<leader>pr', vim.lsp.buf.rename, { desc = 'LSP Rename' })
 
 -- copy/paste to/from system clipboard
 vim.keymap.set({"n", "x"}, "<leader>cp", '"+y')
